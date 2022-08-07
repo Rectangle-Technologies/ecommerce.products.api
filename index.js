@@ -12,6 +12,18 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 app.use(bodyParser.urlencoded({extended: true}));
+app.use(morgan('tiny'))
+
+// connecting database
+mongoose.connect(process.env.DB_CONNECTION, (err) => {
+    console.log(`Database connected`);
+})
+
+// routers
+const productRouters = require("./routers/products");
+
+// configuring routers
+app.use("/products", productRouters);
 
 // running server
 const port = process.env.PORT || 3000;

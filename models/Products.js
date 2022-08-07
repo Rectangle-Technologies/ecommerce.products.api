@@ -37,6 +37,10 @@ const ProductSchema = new mongoose.Schema({
         type: {
             type: String,
             enum: ['STOCK', 'ORDER']
+        },
+        stock: {
+            type: Number,
+            default: 0
         }
     }]
 });
