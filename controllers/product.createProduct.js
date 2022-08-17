@@ -14,6 +14,13 @@ exports.createProduct = async (req, res) => {
 
 exports.validateNewProductData = (req, res, next) => {
     const validation_error = {};
+    var publishing = true;
+
+    // check and update product status
+    if (!req.body.status || req.body.status === "Draft") {
+        req.body.status = "Draft";
+        publishing = false;
+    }
 
     // product.name
     if (!req.body.name) {
@@ -21,6 +28,30 @@ exports.validateNewProductData = (req, res, next) => {
     } else if (!isString(req.body.name)) {
         validation_error.name = "Invalid name"
     }
+    
+    // add errors if the product status is publishing
+    if (publishing) {
+        const errors = validatePublishingProduct(req);
+        if (errors) {
+            const keys = Object.keys(errors);
+            for (var i  = 0; i  < keys.length; i++) {
+                const key = keys[i];
+                validation_error[key] = errors[key];
+            }
+        }
+    }
+    
+    if (Object.keys(validation_error).length > 0) {
+        return res.status(400).json({
+            success: false,
+            errorMessage: "Validation error",
+            errors: validation_error
+        })
+    } else next();
+}
+
+const validatePublishingProduct = (req) => {
+    const validation_error = {};
     
     // product.description
     if (!req.body.description) {
@@ -33,19 +64,35 @@ exports.validateNewProductData = (req, res, next) => {
     const features_error = validateProductFeatures(req.body?.features);
     if (features_error) validation_error.features = features_error;
 
-    // product.variants
-    const variant_error = validateProductVariants(req.body?.variant);
-    if (variant_error) validation_error.variant = variant_error;
+    // product.mrp
+    if (!req.body.mrp) {
+        validation_error.mrp = "*MRP is required";
+    } else if (!isFinite(req.body.mrp)) {
+        validation_error.mrp = "MRP is not valid";
+    } else if (Number(req.body.mrp) <= 0) {
+        validation_error.mrp = "MRP can not be less than or equal to zero";
+    }
+
+    // product.price
+    if (!req.body.price) {
+        validation_error.price = "*Price is required";
+    } else if (!isFinite(req.body.price)) {
+        validation_error.price = "Price is not valid";
+    } else if (Number(req.body.price) < 0) {
+        validation_error.price = "Price can not be less than zero";
+    }
+
+    // validate that price is less than MRP
+    if (!validation_error.price && !validation_error.mrp) {
+        if (Number(req.body.price) <= Number(req.body.mrp)) {}
+        else {
+            validation_error.price = "Price can not be greater than MRP";
+        }
+    }
 
     if (Object.keys(validation_error).length > 0) {
-        console.log(validation_error);
-        return res.status(400).json({
-            success: false,
-            message: "Validation Error",
-            errors: validation_error
-        })
-    }
-    next();
+        return validation_error
+    } else false;
 }
 
 const validateProductFeatures = (features) => {
@@ -66,33 +113,6 @@ const validateProductFeatures = (features) => {
             validation_error.value = "*Value";
         } else if (!isString(features[i].value)) {
             validation_error.value = "Invalid value"
-        }
-        
-        if (Object.keys(validation_error).length > 0) {
-            validation_error.index = i;
-            validation_errors.push(validation_error);
-            found = true;
-        }
-    }
-
-    if (found) {
-        return validation_errors;
-    } else {
-        return ;
-    }
-}
-
-const validateProductVariants = (variants) => {
-    const validation_errors = [];
-    var found = false;
-
-    for (var i = 0; variants?.length > i; i++) {
-        const validation_error = {};
-        // variant.name
-        if (!variants[i].name) {
-            validation_error.name = "*Name";
-        } else if (!isString(variants[i].name)) {
-            validation_error.name = "Invalid name"
         }
         
         if (Object.keys(validation_error).length > 0) {

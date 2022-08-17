@@ -8,7 +8,7 @@ exports.fetchDetails = async (req, res) => {
         if (product) {
             return res.json({product, message: "Product details found"});
         }
-        return res.json({
+        return res.status(404).json({
             product: "Product not found"
         })
     } else {

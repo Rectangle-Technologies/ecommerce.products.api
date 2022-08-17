@@ -1,3 +1,7 @@
+const Products = require("../models/Products");
+const mongoose = require("mongoose");
+const isString = require("../utils/isString");
+
 exports.updateProduct = async (req, res) => {
     const pid = req.params.pid;
     if (mongoose.Types.ObjectId.isValid(pid)) {
