@@ -38,10 +38,21 @@ const ProductSchema = new mongoose.Schema({
         enum: ['STOCK', 'ORDER'],
         default: "STOCK"
     },
-    stock: {
-        type: Number,
-        default: 0
-    }
+    sizes: [
+        {
+            title: {
+                type: String,
+                required: true
+            },
+            stock: {
+                type: Number,
+                required: true,
+                default: 0
+            }
+        }
+    ],
+}, {
+    timestamps: true
 });
 
 module.exports = mongoose.model("Product", ProductSchema);
