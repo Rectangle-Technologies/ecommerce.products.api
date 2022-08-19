@@ -1,7 +1,4 @@
 const Products = require("../models/Products");
-const mongoose = require("mongoose");
-const validator = require("validator");
-const isString = require("../utils/isString");
 const { validateProductDeatils } = require("../validation/DraftProductValidation");
 
 exports.createProduct = async (req, res) => {

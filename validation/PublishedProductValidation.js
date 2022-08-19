@@ -134,9 +134,7 @@ const validateProductSizes = (sizes) => {
         }
         
         // size.stock
-        if (!sizes[i].stock) {
-            validation_error.stock = "*Stock is required";
-        } else if (!isFinite(sizes[i].stock)) {
+        if (!isFinite(sizes[i].stock)) {
             validation_error.stock = "Stock is not valid";
         } else if (Number(sizes[i].stock) < 0) {
             validation_error.stock = "Stock can not be less than zero";
