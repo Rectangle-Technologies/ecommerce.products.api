@@ -1,61 +1,72 @@
 const mongoose = require("mongoose");
 
-const ProductSchema = new mongoose.Schema({
+const ProductSchema = new mongoose.Schema(
+  {
     name: {
-        type: String,
-        required: true
+      type: String,
+      required: true,
     },
     description: {
-        type: String,
-        required: true
+      type: String,
+      required: true,
     },
-    features: [{
+    features: [
+      {
         key: {
-            type: String,
-            required: true
-        }, value: {
-            type: String,
-            required: true
-        }
-    }],
+          type: String,
+          required: true,
+        },
+        value: {
+          type: String,
+          required: true,
+        },
+      },
+    ],
     status: {
-        type: String,
-        enum: ['Draft', 'Published']
+      type: String,
+      enum: ["Draft", "Published"],
     },
-    imageUrls: [{
-        type: String
-    }],
+    imageUrls: [
+      {
+        type: String,
+      },
+    ],
     mrp: {
-        type: Number,
-        required: true
+      type: Number,
+      required: true,
     },
     price: {
-        type: Number,
-        required: true
+      type: Number,
+      required: true,
     },
     type: {
-        type: String,
-        enum: ['STOCK', 'ORDER'],
-        default: "STOCK"
+      type: String,
+      enum: ["STOCK", "ORDER"],
+      default: "STOCK",
     },
     sizes: [
-        {
-            title: {
-                type: String,
-                required: true
-            },
-            stock: {
-                type: Number,
-                required: true,
-                default: 0
-            }
-        }
+      {
+        title: {
+          type: String,
+          required: true,
+        },
+        stock: {
+          type: Number,
+          required: true,
+          default: 0,
+        },
+      },
     ],
-    category: [{
-        type: mongoose.Schema.Types.ObjectId
-    }]
-}, {
-    timestamps: true
-});
+    category: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "ProductCategory",
+      },
+    ],
+  },
+  {
+    timestamps: true,
+  }
+);
 
 module.exports = mongoose.model("Product", ProductSchema);
