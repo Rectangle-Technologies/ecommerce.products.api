@@ -1,6 +1,8 @@
+const ProductCategory = require("../models/ProductCategory");
 const isString = require("../utils/isString");
+const mongoose = require("mongoose")
 
-exports.validatePublishingProduct = (req) => {
+exports.validatePublishingProduct = async (req) => {
     const validation_error = {};
     
     // product.description
@@ -13,6 +15,10 @@ exports.validatePublishingProduct = (req) => {
     // product.features
     const features_error = validateProductFeatures(req.body?.features);
     if (features_error) validation_error.features = features_error;
+
+    // product.category
+    const category_error = await validateProductCategories(req.body?.category);
+    if (category_error) validation_error.category = category_error;
 
     // product.sizes
     const sizes_error = validateProductSizes(req.body?.sizes);
@@ -48,6 +54,36 @@ exports.validatePublishingProduct = (req) => {
     if (Object.keys(validation_error).length > 0) {
         return validation_error
     } else false;
+}
+
+const validateProductCategories = async (category) => {
+    const validation_errors = [];
+    var found = false;
+
+    for (var i = 0; i < category?.length; i++) {
+        const validation_error = {};
+
+        if (!mongoose.Types.ObjectId.isValid(category[i])) {
+            validation_error.error = "Product category is invalid";
+        } else {
+            const pcategory = await ProductCategory.findById(category[i]);
+            if (pcategory === null) {
+                validation_error.error = "Product category not found";
+            }
+        }
+        
+        if (Object.keys(validation_error).length > 0) {
+            validation_error.index = i;
+            validation_errors.push(validation_error);
+            found = true;
+        }
+    }
+
+    if (found) {
+        return validation_errors;
+    } else {
+        return ;
+    }
 }
 
 const validateProductFeatures = (features) => {

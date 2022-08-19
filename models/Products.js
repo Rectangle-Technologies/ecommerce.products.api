@@ -51,6 +51,9 @@ const ProductSchema = new mongoose.Schema({
             }
         }
     ],
+    category: [{
+        type: mongoose.Schema.Types.ObjectId
+    }]
 }, {
     timestamps: true
 });

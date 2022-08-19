@@ -1,7 +1,7 @@
 const isString = require("../utils/isString");
 const { validatePublishingProduct } = require("./PublishedProductValidation");
 
-exports.validateProductDeatils = (req, res, next) => {
+exports.validateProductDeatils = async (req, res, next) => {
     const validation_error = {};
     var publishing = true;
 
@@ -20,7 +20,7 @@ exports.validateProductDeatils = (req, res, next) => {
     
     // add errors if the product status is publishing
     if (publishing) {
-        const errors = validatePublishingProduct(req);
+        const errors = await validatePublishingProduct(req);
         if (errors) {
             const keys = Object.keys(errors);
             for (var i  = 0; i  < keys.length; i++) {
