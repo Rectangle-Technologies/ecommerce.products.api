@@ -1,5 +1,6 @@
 const router = require("express").Router();
 const { validateProductCategory, createProductCategory } = require("../controllers/product.category.createCategory");
+const { getAllProductCategories } = require("../controllers/product.category.getAll");
 const { createProduct, validateProductDeatils } = require("../controllers/product.createProduct");
 const { deleteProduct } = require("../controllers/product.deleteProduct");
 const { validateProductData, updateProduct } = require("../controllers/product.updateProduct");
@@ -24,5 +25,9 @@ router.delete("/deleteProduct/:pid", deleteProduct)
 // URL /products/category/create
 // DESC create new product category
 router.post("/category/create", validateProductCategory, createProductCategory);
+
+// URL /products/category/getall
+// DESC get all product category
+router.get("/category/getall", getAllProductCategories);
 
 module.exports = router;
