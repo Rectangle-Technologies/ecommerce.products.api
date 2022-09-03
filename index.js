@@ -22,10 +22,12 @@ mongoose.connect(process.env.DB_CONNECTION, (err) => {
 // routers
 const productRouters = require("./routers/products");
 const contactRouters = require("./routers/contact");
+const clientDairiesRouters = require("./routers/diaries");
 
 // configuring routers
 app.use("/products", productRouters);
 app.use("/contact", contactRouters);
+app.use("/diaries", clientDairiesRouters);
 
 // running server
 const port = process.env.PORT || 3000;
