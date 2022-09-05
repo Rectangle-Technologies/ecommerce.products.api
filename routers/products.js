@@ -1,7 +1,7 @@
 const router = require("express").Router();
 const ImageUploader = require("../controllers/image.uploader");
 const { validateProductCategory, createProductCategory } = require("../controllers/product.category.createCategory");
-const { getAllProductCategories } = require("../controllers/product.category.getAll");
+const { getAllProductCategories, getCategory } = require("../controllers/product.category.getAll");
 const { createProduct, validateProductDeatils } = require("../controllers/product.createProduct");
 const { deleteProduct } = require("../controllers/product.deleteProduct");
 const { getDetailsPagination } = require("../controllers/product.getDetails.pagination");
@@ -20,7 +20,7 @@ router.get("/details/:pageno/:limit", getDetailsPagination);
 
 // URL /products/fetchByFilter
 // DESC get products by filters
-router.get('/fetchByFilter', fetchByFilter)
+router.post('/fetchByFilter', fetchByFilter)
 
 // URL /products/fetchByCategory
 router.get('/fetchByCategory/:id', fetchByCategory)
@@ -48,6 +48,9 @@ router.post("/category/create", validateProductCategory, createProductCategory);
 // URL /products/category/getall
 // DESC get all product category
 router.get("/category/getall", getAllProductCategories);
+
+// URL /products/category/:id
+router.get('/category/:id', getCategory)
 
 // URL /products/latest
 // DESC get latest products launched

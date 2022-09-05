@@ -23,6 +23,7 @@ exports.fetchDetails = async (req, res) => {
 exports.fetchByCategory = async (req, res) => {
     try {
         const categoryId = req.params.id
+        console.log(categoryId)
         // Checking if category exists
         const category = await ProductCategory.findById(categoryId)
         if (!category) {
@@ -40,7 +41,6 @@ exports.fetchByCategory = async (req, res) => {
 exports.fetchByFilter = async (req, res) => {
     try {
         const { categoryId, priceRange, sizes } = req.body
-        console.log(sizes)
         // Checking if category exists
         const category = await ProductCategory.findById(categoryId)
         if (!category) {
