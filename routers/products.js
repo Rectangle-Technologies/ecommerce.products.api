@@ -8,7 +8,7 @@ const { getDetailsPagination } = require("../controllers/product.getDetails.pagi
 const { getLatestProducts } = require("../controllers/product.getLatest");
 const { newProductImage } = require("../controllers/product.image.new");
 const { validateProductData, updateProduct } = require("../controllers/product.updateProduct");
-const { fetchDetails } = require("../controllers/products.fetchDetails");
+const { fetchDetails, fetchByFilter, fetchByCategory } = require("../controllers/products.fetchDetails");
 
 // URL /products/fetchDetails/:pid
 // DESC get product details
@@ -17,6 +17,13 @@ router.get("/fetchDetails/:pid", fetchDetails);
 // URL /products/details/:pageno/:limit
 // DESC get product details with pagination
 router.get("/details/:pageno/:limit", getDetailsPagination);
+
+// URL /products/fetchByFilter
+// DESC get products by filters
+router.get('/fetchByFilter', fetchByFilter)
+
+// URL /products/fetchByCategory
+router.get('/fetchByCategory/:id', fetchByCategory)
 
 // URL /products/createProduct
 // DESC create product details
