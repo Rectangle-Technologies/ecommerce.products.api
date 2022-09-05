@@ -5,6 +5,7 @@ const { getAllProductCategories } = require("../controllers/product.category.get
 const { createProduct, validateProductDeatils } = require("../controllers/product.createProduct");
 const { deleteProduct } = require("../controllers/product.deleteProduct");
 const { getDetailsPagination } = require("../controllers/product.getDetails.pagination");
+const { getLatestProducts } = require("../controllers/product.getLatest");
 const { newProductImage } = require("../controllers/product.image.new");
 const { validateProductData, updateProduct } = require("../controllers/product.updateProduct");
 const { fetchDetails } = require("../controllers/products.fetchDetails");
@@ -40,5 +41,9 @@ router.post("/category/create", validateProductCategory, createProductCategory);
 // URL /products/category/getall
 // DESC get all product category
 router.get("/category/getall", getAllProductCategories);
+
+// URL /products/latest
+// DESC get latest products launched
+router.get("/latest", getLatestProducts);
 
 module.exports = router;
