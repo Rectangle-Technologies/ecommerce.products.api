@@ -1,5 +1,6 @@
 const { addDairiesFeedback, addClientDairiesImage } = require("../controllers/dairies.addFeedback");
 const { getLatest } = require("../controllers/dairies.getLatest");
+const { deleteFeedback } = require("../controllers/diaries.deleteFeedback");
 const ImageUploader = require("../controllers/image.uploader");
 
 const router = require("express").Router();
@@ -12,5 +13,8 @@ router.post("/addImage/:uid", ImageUploader.single("feedbackImage"), addClientDa
 
 // URL /diaries/latest
 router.get("/latest", getLatest);
+
+// URL /diaries/:uid
+router.delete("/:uid", deleteFeedback);
 
 module.exports = router;
