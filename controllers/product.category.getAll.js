@@ -1,12 +1,17 @@
 const ProductCategory = require("../models/ProductCategory")
 
 exports.getAllProductCategories = async (req, res) => {
-    const productCategories = await ProductCategory.find();
-    return res.json({
-        success: true,
-        message: "Fetched all product categories",
-        categories: productCategories
-    });
+    try {
+        const productCategories = await ProductCategory.find();
+        return res.json({
+            success: true,
+            message: "Fetched all product categories",
+            categories: productCategories
+        });
+    } catch (err) {
+        console.log(err)
+        res.status(500).json({ message: 'Something went wrong' })
+    }
 }
 
 exports.getCategory = async (req, res) => {
