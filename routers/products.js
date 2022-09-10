@@ -6,6 +6,7 @@ const { createProduct, validateProductDeatils } = require("../controllers/produc
 const { deleteProduct } = require("../controllers/product.deleteProduct");
 const { getDetailsPagination } = require("../controllers/product.getDetails.pagination");
 const { getLatestProducts } = require("../controllers/product.getLatest");
+const { fetchProductsByName } = require("../controllers/product.getProductByName");
 const { newProductImage } = require("../controllers/product.image.new");
 const { validateProductData, updateProduct } = require("../controllers/product.updateProduct");
 const { fetchDetails, fetchByFilter, fetchByCategory } = require("../controllers/products.fetchDetails");
@@ -24,6 +25,10 @@ router.post('/fetchByFilter', fetchByFilter)
 
 // URL /products/fetchByCategory
 router.get('/fetchByCategory/:id', fetchByCategory)
+
+// URL /products/get
+// DESC fetch products by name
+router.get('/get', fetchProductsByName)
 
 // URL /products/createProduct
 // DESC create product details
