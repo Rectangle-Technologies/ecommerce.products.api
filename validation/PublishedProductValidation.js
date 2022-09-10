@@ -43,6 +43,11 @@ exports.validatePublishingProduct = async (req) => {
         validation_error.price = "Price can not be less than zero";
     }
 
+    // validate launch_time and add default value
+    if (!req.body.launch_time) {
+        req.body.launch_time = (new Date()).toISOString();
+    }
+
     // validate that price is less than MRP
     if (!validation_error.price && !validation_error.mrp) {
         if (Number(req.body.price) <= Number(req.body.mrp)) {}
