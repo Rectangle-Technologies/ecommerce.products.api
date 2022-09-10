@@ -7,7 +7,10 @@ exports.fetchDetails = async (req, res) => {
     if (mongoose.Types.ObjectId.isValid(pid)) {
         const product = await Products.findById(pid);
         if (product) {
+            if (product.launch_time < Date.now())
             return res.json({ product, message: "Product details found" });
+            else
+            return res.status(400).json({message: "Product is not launched yet", status: "PRODUCT_NOT_LAUNCHED", product})
         }
         return res.status(404).json({
             message: "Product not found"
