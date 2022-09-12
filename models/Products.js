@@ -65,7 +65,7 @@ const ProductSchema = new mongoose.Schema({
     launch_time: {
         type: Date,
         required: true,
-        default: Date.now
+        default: Date.now()
     }
 }, {
     timestamps: true,
