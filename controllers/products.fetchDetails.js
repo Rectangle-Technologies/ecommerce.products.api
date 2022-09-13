@@ -26,15 +26,20 @@ exports.fetchDetails = async (req, res) => {
 exports.fetchByCategory = async (req, res) => {
     try {
         const categoryId = req.params.id
-        console.log(categoryId)
+        const page = Number.parseInt(req.query.page)
+        const limit = Number.parseInt(req.query.limit)
         // Checking if category exists
         const category = await ProductCategory.findById(categoryId)
         if (!category) {
             return res.status(400).json({ message: 'Category not found' })
         }
         // Fetching products for the category
-        const products = await Products.find({ category: { $elemMatch: { $eq: categoryId } } })
-        res.status(200).json({ message: 'Products fetched successfully', products })
+        const count = await Products.find({ category: { $elemMatch: { $eq: categoryId } } }).count()
+        const products = await Products
+            .find({ category: { $elemMatch: { $eq: categoryId } } })
+            .skip((page - 1) * limit)
+            .limit(limit)
+        res.status(200).json({ message: 'Products fetched successfully', products, count })
     } catch (err) {
         console.log(err.message)
         res.status(500).json({ message: 'Something went wrong' })
