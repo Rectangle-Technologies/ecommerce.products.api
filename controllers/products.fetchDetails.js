@@ -57,43 +57,71 @@ exports.fetchByFilter = async (req, res) => {
             }
         }
         // Fetching products for the category
+        const page = Number.parseInt(req.query.page)
+        const limit = Number.parseInt(req.query.limit)
         if (categoryId) {
             if (sizes && sizes.length) {
+                const count = await Products.find({
+                    $and: [
+                        { category: { $elemMatch: { $eq: categoryId } } },
+                        { price: { $gte: priceRange.min, $lte: priceRange.max } },
+                        { 'sizes.title': { $in: sizes } }
+                    ]
+                }).count()
                 const products = await Products.find({
                     $and: [
                         { category: { $elemMatch: { $eq: categoryId } } },
                         { price: { $gte: priceRange.min, $lte: priceRange.max } },
                         { 'sizes.title': { $in: sizes } }
                     ]
-                })
-                res.status(200).json({ message: 'Products fetched successfully', products })
+                }).skip((page - 1) * limit).limit(limit)
+                res.status(200).json({ message: 'Products fetched successfully', products, count })
             } else {
+                const count = await Products.find({
+                    $and: [
+                        { category: { $elemMatch: { $eq: categoryId } } },
+                        { price: { $gte: priceRange.min, $lte: priceRange.max } },
+                    ]
+                }).count()
                 const products = await Products.find({
                     $and: [
                         { category: { $elemMatch: { $eq: categoryId } } },
                         { price: { $gte: priceRange.min, $lte: priceRange.max } },
                     ]
-                })
-                res.status(200).json({ message: 'Products fetched successfully', products })
+                }).skip((page - 1) * limit).limit(limit)
+                res.status(200).json({ message: 'Products fetched successfully', products, count })
             }
         } else if (name) {
             if (sizes && sizes.length) {
+                const count = await Products.find({
+                    $and: [
+                        { name: { $regex: name, $options: 'i' } },
+                        { price: { $gte: priceRange.min, $lte: priceRange.max } },
+                        { 'sizes.title': { $in: sizes } }
+                    ]
+                }).count()
                 const products = await Products.find({
                     $and: [
                         { name: { $regex: name, $options: 'i' } },
                         { price: { $gte: priceRange.min, $lte: priceRange.max } },
                         { 'sizes.title': { $in: sizes } }
                     ]
-                })
-                res.status(200).json({ message: 'Products fetched successfully', products })
+                }).skip((page - 1) * limit).limit(limit)
+                res.status(200).json({ message: 'Products fetched successfully', products, count })
             } else {
+                const count = await Products.find({
+                    $and: [
+                        { name: { $regex: name, $options: 'i' } },
+                        { price: { $gte: priceRange.min, $lte: priceRange.max } },
+                    ]
+                }).count()
                 const products = await Products.find({
                     $and: [
                         { name: { $regex: name, $options: 'i' } },
                         { price: { $gte: priceRange.min, $lte: priceRange.max } },
                     ]
-                })
-                res.status(200).json({ message: 'Products fetched successfully', products })
+                }).skip((page - 1) * limit).limit(limit)
+                res.status(200).json({ message: 'Products fetched successfully', products, count })
             }
         }
     } catch (err) {
