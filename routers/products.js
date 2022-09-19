@@ -1,5 +1,5 @@
 const router = require("express").Router();
-const ImageUploader = require("../controllers/image.uploader");
+const { ImageUploader } = require("../controllers/image.uploader");
 const { validateProductCategory, createProductCategory } = require("../controllers/product.category.createCategory");
 const { getAllProductCategories, getCategory } = require("../controllers/product.category.getAll");
 const { createProduct, validateProductDeatils } = require("../controllers/product.createProduct");
@@ -7,7 +7,7 @@ const { deleteProduct } = require("../controllers/product.deleteProduct");
 const { getDetailsPagination } = require("../controllers/product.getDetails.pagination");
 const { getLatestProducts } = require("../controllers/product.getLatest");
 const { fetchProductsByName } = require("../controllers/product.getProductByName");
-const { newProductImage } = require("../controllers/product.image.new");
+const { newProductImage, deleteImage } = require("../controllers/product.image.new");
 const { validateProductData, updateProduct } = require("../controllers/product.updateProduct");
 const { fetchDetails, fetchByFilter, fetchByCategory } = require("../controllers/products.fetchDetails");
 
@@ -45,6 +45,9 @@ router.delete("/deleteProduct/:pid", deleteProduct)
 // URL /products/image/new/:pid
 // DESC add new image to product by pid
 router.post("/image/new/:pid", ImageUploader.single("productImage"), newProductImage)
+
+// URL /products/image/delete
+router.post('/image/delete', deleteImage)
 
 // URL /products/category/create
 // DESC create new product category

@@ -45,4 +45,4 @@ const ImageUploader = multer({
   fileFilter: imageFileUpload,
 });
 
-module.exports = ImageUploader;
+module.exports = { ImageUploader, s3 };
