@@ -49,11 +49,12 @@ exports.deleteImage = async (req, res) => {
         }
         // Checking if image is there in product
         const idx = product.imageUrls.findIndex(url => url === imageUrl)
-        if (idx === -1) {
-            return res.status(404).json({ message: 'Image not there in product' })
-        }
+        // if (idx === -1) {
+        //     return res.status(404).json({ message: 'Image not there in product' })
+        // }
         // Deleting from S3
-        const key = imageUrl.split('/')[3]
+        let key = imageUrl.split('/')[3]
+        key = key.replaceAll("%2C", ",")
         await s3
             .deleteObject({ Bucket: "bloomdev", Key: key })
             .promise();
