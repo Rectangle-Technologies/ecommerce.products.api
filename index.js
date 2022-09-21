@@ -23,10 +23,12 @@ mongoose.connect(process.env.DB_CONNECTION, (err) => {
 const productRouters = require("./routers/products");
 const contactRouters = require("./routers/contact");
 const clientDairiesRouters = require("./routers/diaries");
+const collaborateQueries = require("./routers/collab");
 
 // configuring routers
 app.use("/products", productRouters);
 app.use("/contact", contactRouters);
+app.use("/collab", collaborateQueries);
 app.use("/diaries", clientDairiesRouters);
 
 // running server
