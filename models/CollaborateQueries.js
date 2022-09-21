@@ -25,7 +25,7 @@ const ContactQuerySchema = new mongoose.Schema({
         type: String,
         required: true,
         enum: ["Completed","Pending"],
-        default: "In Queue"
+        default: "Pending"
     }
 })
 
