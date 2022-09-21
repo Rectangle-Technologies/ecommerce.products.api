@@ -24,12 +24,14 @@ const productRouters = require("./routers/products");
 const contactRouters = require("./routers/contact");
 const clientDairiesRouters = require("./routers/diaries");
 const collaborateQueries = require("./routers/collab");
+const exchangeRouters = require("./routers/exchange");
 
 // configuring routers
 app.use("/products", productRouters);
 app.use("/contact", contactRouters);
 app.use("/collab", collaborateQueries);
 app.use("/diaries", clientDairiesRouters);
+app.use("/exchange", exchangeRouters);
 
 // running server
 const port = process.env.PORT || 3000;
