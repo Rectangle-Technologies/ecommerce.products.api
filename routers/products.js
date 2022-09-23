@@ -1,6 +1,7 @@
 const router = require("express").Router();
 const { ImageUploader } = require("../controllers/image.uploader");
 const { validateProductCategory, createProductCategory } = require("../controllers/product.category.createCategory");
+const { deleteCategory } = require("../controllers/product.category.deleteCategory");
 const { getAllProductCategories, getCategory } = require("../controllers/product.category.getAll");
 const { createProduct, validateProductDeatils } = require("../controllers/product.createProduct");
 const { deleteProduct } = require("../controllers/product.deleteProduct");
@@ -52,6 +53,10 @@ router.post('/image/delete', deleteImage)
 // URL /products/category/create
 // DESC create new product category
 router.post("/category/create", validateProductCategory, createProductCategory);
+
+// URL /products/category/:id
+// DESC delete product category
+router.delete('/category/:id', deleteCategory)
 
 // URL /products/category/getall
 // DESC get all product category
