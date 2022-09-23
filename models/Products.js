@@ -66,7 +66,21 @@ const ProductSchema = new mongoose.Schema({
         type: Date,
         required: true,
         default: Date.now()
-    }
+    },
+    recommendations: [{
+        _id: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "Product",
+            required: true
+        },
+        name: {
+            type: String,
+            required: true
+        },
+        imageUrl: {
+            type: String
+        }
+    }]
 }, {
     timestamps: true,
 });
