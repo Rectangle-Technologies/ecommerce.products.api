@@ -4,8 +4,11 @@ const ProductCategory = require('../models/ProductCategory')
 
 exports.fetchDetails = async (req, res) => {
     const pid = req.params.pid;
+    console.log(pid);
     if (mongoose.Types.ObjectId.isValid(pid)) {
-        const product = await Products.findById(pid);
+        const product = await Products.findById(pid).populate({path:"recommendations", populate: {
+            path: "_id"
+        }});
         if (product) {
             if (product.launch_time <= Date.now())
                 return res.json({ product, message: "Product details found" });
