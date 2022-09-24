@@ -4,7 +4,9 @@ exports.deleteCategory = async (req, res) => {
     try {
         // Delete category from mongoDB
         const category = await ProductCategory.findByIdAndDelete(req.params.id)
-
+        if (!category) {
+            return res.status(404).json({ message: 'Category does not exist' })
+        }
         // TODO
         // Delete image from AWS
         // const imageUrl = category.imageUrl
