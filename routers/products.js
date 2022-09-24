@@ -12,6 +12,7 @@ const { fetchProductsByName } = require("../controllers/product.getProductByName
 const { newProductImage, deleteImage } = require("../controllers/product.image.new");
 const { validateProductData, updateProduct } = require("../controllers/product.updateProduct");
 const { fetchDetails, fetchByFilter, fetchByCategory } = require("../controllers/products.fetchDetails");
+const authenticate = require("../middleware/auth");
 
 // URL /products/fetchDetails/:pid
 // DESC get product details
@@ -23,7 +24,7 @@ router.get("/details/:pageno/:limit", getDetailsPagination);
 
 // URL /products/fetchByFilter
 // DESC get products by filters
-router.post('/fetchByFilter', fetchByFilter)
+router.post('/fetchByFilter', authenticate, fetchByFilter)
 
 // URL /products/fetchByCategory
 router.get('/fetchByCategory/:id', fetchByCategory)
@@ -34,34 +35,34 @@ router.get('/get', fetchProductsByName)
 
 // URL /products/createProduct
 // DESC create product details
-router.post("/createProduct", validateProductDeatils, createProduct);
+router.post("/createProduct", authenticate, validateProductDeatils, createProduct);
 
 // URL /products/createProduct/:pid
 // DESC update product details with product id
-router.put("/createProduct/:pid", validateProductData, updateProduct);
+router.put("/createProduct/:pid", authenticate, validateProductData, updateProduct);
 
 // URL /products/deleteProduct/:pid
 // DESC delete product via product-id
-router.delete("/deleteProduct/:pid", deleteProduct)
+router.delete("/deleteProduct/:pid", authenticate, deleteProduct)
 
 // URL /products/image/new/:pid
 // DESC add new image to product by pid
-router.post("/image/new/:pid", ImageUploader.single("productImage"), newProductImage)
+router.post("/image/new/:pid", authenticate, ImageUploader.single("productImage"), newProductImage)
 
 // URL /products/image/delete
-router.post('/image/delete', deleteImage)
+router.post('/image/delete', authenticate, deleteImage)
 
 // URL /products/category/create
 // DESC create new product category
-router.post("/category/create", validateProductCategory, createProductCategory);
+router.post("/category/create", authenticate, validateProductCategory, createProductCategory);
 
 // URL /category/image/:pid
 // DESC add product category image
-router.post("/category/image/:pid", ImageUploader.single("productCategoryImage"), newProductCategoryImage)
+router.post("/category/image/:pid", authenticate, ImageUploader.single("productCategoryImage"), newProductCategoryImage)
 
 // URL /products/category/:id
 // DESC delete product category
-router.delete('/category/:id', deleteCategory)
+router.delete('/category/:id', authenticate, deleteCategory)
 
 // URL /products/category/getall
 // DESC get all product category
