@@ -5,6 +5,7 @@ exports.deleteCategory = async (req, res) => {
         // Delete category from mongoDB
         const category = await ProductCategory.findByIdAndDelete(req.params.id)
 
+        // TODO
         // Delete image from AWS
         // const imageUrl = category.imageUrl
         // let key = imageUrl.split('/')[3]

@@ -3,6 +3,7 @@ const { ImageUploader } = require("../controllers/image.uploader");
 const { validateProductCategory, createProductCategory } = require("../controllers/product.category.createCategory");
 const { deleteCategory } = require("../controllers/product.category.deleteCategory");
 const { getAllProductCategories, getCategory } = require("../controllers/product.category.getAll");
+const { newProductCategoryImage } = require("../controllers/product.category.image.new");
 const { createProduct, validateProductDeatils } = require("../controllers/product.createProduct");
 const { deleteProduct } = require("../controllers/product.deleteProduct");
 const { getDetailsPagination } = require("../controllers/product.getDetails.pagination");
@@ -53,6 +54,10 @@ router.post('/image/delete', deleteImage)
 // URL /products/category/create
 // DESC create new product category
 router.post("/category/create", validateProductCategory, createProductCategory);
+
+// URL /category/image/:pid
+// DESC add product category image
+router.post("/category/image/:pid", ImageUploader.single("productCategoryImage"), newProductCategoryImage)
 
 // URL /products/category/:id
 // DESC delete product category
