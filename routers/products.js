@@ -24,7 +24,7 @@ router.get("/details/:pageno/:limit", getDetailsPagination);
 
 // URL /products/fetchByFilter
 // DESC get products by filters
-router.post('/fetchByFilter', authenticate, fetchByFilter)
+router.post('/fetchByFilter', fetchByFilter)
 
 // URL /products/fetchByCategory
 router.get('/fetchByCategory/:id', fetchByCategory)
