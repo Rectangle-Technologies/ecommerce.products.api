@@ -39,7 +39,7 @@ router.post("/createProduct", authenticate, validateProductDeatils, createProduc
 
 // URL /products/createProduct/:pid
 // DESC update product details with product id
-router.put("/updateProduct/:pid", authenticate, validateProductData, updateProduct);
+router.post("/updateProduct/:pid", authenticate, validateProductData, updateProduct);
 
 // URL /products/deleteProduct/:pid
 // DESC delete product via product-id
