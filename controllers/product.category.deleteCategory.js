@@ -1,4 +1,5 @@
 const ProductCategory = require('../models/ProductCategory')
+const { s3 } = require('./image.uploader')
 
 exports.deleteCategory = async (req, res) => {
     try {
