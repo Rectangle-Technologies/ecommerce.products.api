@@ -4,11 +4,12 @@ const ProductCategory = require('../models/ProductCategory')
 
 exports.fetchDetails = async (req, res) => {
     const pid = req.params.pid;
-    console.log(pid);
     if (mongoose.Types.ObjectId.isValid(pid)) {
-        const product = await Products.findById(pid).populate({path:"recommendations", populate: {
-            path: "_id"
-        }});
+        const product = await Products.findById(pid).populate({
+            path: "recommendations", populate: {
+                path: "_id"
+            }
+        });
         if (product) {
             if (product.launch_time <= Date.now())
                 return res.json({ product, message: "Product details found" });
@@ -37,9 +38,10 @@ exports.fetchByCategory = async (req, res) => {
             return res.status(400).json({ message: 'Category not found' })
         }
         // Fetching products for the category
-        const count = await Products.find({ category: { $elemMatch: { $eq: categoryId } } }).count()
+        console.log(pid);
+        const count = await Products.find({ $and: [{ category: { $elemMatch: { $eq: categoryId } } }, { launch_time: { $lte: new Date() } }] }).count()
         const products = await Products
-            .find({ category: { $elemMatch: { $eq: categoryId } } })
+            .find({ $and: [{ category: { $elemMatch: { $eq: categoryId } } }, { launch_time: { $lte: new Date() } }] })
             .skip((page - 1) * limit)
             .limit(limit)
         res.status(200).json({ message: 'Products fetched successfully', products, count })
@@ -68,14 +70,16 @@ exports.fetchByFilter = async (req, res) => {
                     $and: [
                         { category: { $elemMatch: { $eq: categoryId } } },
                         { price: { $gte: priceRange.min, $lte: priceRange.max } },
-                        { 'sizes.title': { $in: sizes } }
+                        { 'sizes.title': { $in: sizes } },
+                        { launch_time: { $lte: new Date() } }
                     ]
                 }).count()
                 const products = await Products.find({
                     $and: [
                         { category: { $elemMatch: { $eq: categoryId } } },
                         { price: { $gte: priceRange.min, $lte: priceRange.max } },
-                        { 'sizes.title': { $in: sizes } }
+                        { 'sizes.title': { $in: sizes } },
+                        { launch_time: { $lte: new Date() } }
                     ]
                 }).skip((page - 1) * limit).limit(limit)
                 res.status(200).json({ message: 'Products fetched successfully', products, count })
@@ -84,12 +88,14 @@ exports.fetchByFilter = async (req, res) => {
                     $and: [
                         { category: { $elemMatch: { $eq: categoryId } } },
                         { price: { $gte: priceRange.min, $lte: priceRange.max } },
+                        { launch_time: { $lte: new Date() } }
                     ]
                 }).count()
                 const products = await Products.find({
                     $and: [
                         { category: { $elemMatch: { $eq: categoryId } } },
                         { price: { $gte: priceRange.min, $lte: priceRange.max } },
+                        { launch_time: { $lte: new Date() } }
                     ]
                 }).skip((page - 1) * limit).limit(limit)
                 res.status(200).json({ message: 'Products fetched successfully', products, count })
@@ -100,14 +106,16 @@ exports.fetchByFilter = async (req, res) => {
                     $and: [
                         { name: { $regex: name, $options: 'i' } },
                         { price: { $gte: priceRange.min, $lte: priceRange.max } },
-                        { 'sizes.title': { $in: sizes } }
+                        { 'sizes.title': { $in: sizes } },
+                        { launch_time: { $lte: new Date() } }
                     ]
                 }).count()
                 const products = await Products.find({
                     $and: [
                         { name: { $regex: name, $options: 'i' } },
                         { price: { $gte: priceRange.min, $lte: priceRange.max } },
-                        { 'sizes.title': { $in: sizes } }
+                        { 'sizes.title': { $in: sizes } },
+                        { launch_time: { $lte: new Date() } }
                     ]
                 }).skip((page - 1) * limit).limit(limit)
                 res.status(200).json({ message: 'Products fetched successfully', products, count })
@@ -116,12 +124,14 @@ exports.fetchByFilter = async (req, res) => {
                     $and: [
                         { name: { $regex: name, $options: 'i' } },
                         { price: { $gte: priceRange.min, $lte: priceRange.max } },
+                        { launch_time: { $lte: new Date() } }
                     ]
                 }).count()
                 const products = await Products.find({
                     $and: [
                         { name: { $regex: name, $options: 'i' } },
                         { price: { $gte: priceRange.min, $lte: priceRange.max } },
+                        { launch_time: { $lte: new Date() } }
                     ]
                 }).skip((page - 1) * limit).limit(limit)
                 res.status(200).json({ message: 'Products fetched successfully', products, count })
