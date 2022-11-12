@@ -7,16 +7,16 @@ exports.fetchProductsByName = async (req, res) => {
         const limit = Number.parseInt(req.query.limit)
         const empty = req.query.empty
         if ((name === 'undefined' || name.length === 0) && empty === 'required') {
-            const count = await Products.find({ launch_time: { $lte: new Date() } }).count()
+            const count = await Products.find({ $and: [{ launch_time: { $lte: new Date() } }, { status: 'Published' }] }).count()
             const products = await Products
-                .find({ launch_time: { $lte: new Date() } })
+                .find({ $and: [{ launch_time: { $lte: new Date() } }, { status: 'Published' }] })
                 .skip((page - 1) * limit)
                 .limit(limit)
             res.status(200).json({ message: 'Products fetched successfully', products, count })
         } else if (name && name.length > 0) {
-            const count = await Products.find({ $and: [{ name: { $regex: name, $options: 'i' } }, { launch_time: { $lte: new Date() } }] }).count()
+            const count = await Products.find({ $and: [{ name: { $regex: name, $options: 'i' } }, { launch_time: { $lte: new Date() } }, { status: 'Published' }] }).count()
             const products = await Products
-                .find({ $and: [{ name: { $regex: name, $options: 'i' } }, { launch_time: { $lte: new Date() } }] })
+                .find({ $and: [{ name: { $regex: name, $options: 'i' } }, { launch_time: { $lte: new Date() } }, { status: 'Published' }] })
                 .skip((page - 1) * limit)
                 .limit(limit)
             res.status(200).json({ message: 'Products fetched successfully', products, count })
