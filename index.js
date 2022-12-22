@@ -11,7 +11,7 @@ dotenv.config();
 const app = express();
 app.use(cors());
 app.use(express.json());
-app.use(bodyParser.urlencoded({extended: true}));
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(morgan('tiny'))
 
 // connecting database
@@ -25,6 +25,7 @@ const contactRouters = require("./routers/contact");
 const clientDairiesRouters = require("./routers/diaries");
 const collaborateQueries = require("./routers/collab");
 const exchangeRouters = require("./routers/exchange");
+const queryRouters = require('./routers/query')
 
 // configuring routers
 app.use("/products", productRouters);
@@ -32,6 +33,7 @@ app.use("/contact", contactRouters);
 app.use("/collab", collaborateQueries);
 app.use("/diaries", clientDairiesRouters);
 app.use("/exchange", exchangeRouters);
+app.use('/query', queryRouters)
 
 // running server
 const port = process.env.PORT || 3000;
