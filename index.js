@@ -26,6 +26,7 @@ const clientDairiesRouters = require("./routers/diaries");
 const collaborateQueries = require("./routers/collab");
 const exchangeRouters = require("./routers/exchange");
 const queryRouters = require('./routers/query')
+const paymentRouters = require('./routers/payment')
 
 // configuring routers
 app.use("/products", productRouters);
@@ -34,6 +35,7 @@ app.use("/collab", collaborateQueries);
 app.use("/diaries", clientDairiesRouters);
 app.use("/exchange", exchangeRouters);
 app.use('/query', queryRouters)
+app.use('/payment', paymentRouters)
 
 // running server
 const port = process.env.PORT || 3000;
